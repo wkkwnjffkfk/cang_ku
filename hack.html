@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>System Check</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a0a0a;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding: 20px;
+        }
+        .terminal {
+            width: 100%;
+            max-width: 400px;
+            background: #000;
+            border: 1px solid #0f0;
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 0 15px rgba(0,255,0,0.3);
+            height: 300px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .terminal::-webkit-scrollbar {
+            width: 4px;
+        }
+        .terminal::-webkit-scrollbar-thumb {
+            background: #0f0;
+        }
+        .line {
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        .warning-box {
+            margin-top: 30px;
+            background: rgba(255,0,0,0.15);
+            border: 1px solid red;
+            padding: 20px;
+            border-radius: 10px;
+            color: #ff4444;
+            text-align: center;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .warning-box h2 {
+            font-size: 22px;
+            margin-bottom: 5px;
+            font-family: sans-serif;
+        }
+        .warning-box p {
+            font-size: 14px;
+            font-family: sans-serif;
+        }
+        button {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: sans-serif;
+        }
+        .fun-message {
+            margin-top: 20px;
+            color: #FFD700;
+            font-size: 18px;
+            font-weight: bold;
+            display: none;
+            text-align: center;
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal" id="terminal"></div>
+    <div class="warning-box" id="warningBox">
+        <h2>SECURITY WARNING</h2>
+        <p>Unauthorized access detected.<br>Your device has been locked.<br>Press the button below to unlock.</p>
+        <button id="unlockBtn">UNLOCK DEVICE</button>
+    </div>
+    <div class="fun-message" id="funMsg">APRIL FOOLS! YOU'VE BEEN PRANKED!</div>
+
+    <script>
+        const terminal = document.getElementById('terminal');
+        const warningBox = document.getElementById('warningBox');
+        const funMsg = document.getElementById('funMsg');
+        const unlockBtn = document.getElementById('unlockBtn');
+
+        const lines = [
+            "[+] Establishing secure connection...",
+            "[+] Target device: iPhone 14 Pro Max",
+            "[+] OS version: iOS 18.3.1",
+            "[+] Scanning open ports...",
+            "[*] Port 443 (HTTPS) : OPEN",
+            "[*] Port 22 (SSH)     : CLOSED",
+            "[*] Port 3389 (RDP)   : CLOSED",
+            "[+] Attempting exploit CVE-2025-24118...",
+            "[+] Injecting payload... SUCCESS",
+            "[+] Gaining root access... SUCCESS",
+            "[+] Extracting contacts... (135 entries)",
+            "[+] Extracting photo thumbnails... (2,341 items)",
+            "[+] Reading chat logs...",
+            "[!] Sensitive data found: banking, passwords, messages",
+            "[+] Uploading to remote server...",
+            "[#] Complete. Device fully compromised.",
+            "[!] WARNING: All activity is being logged."
+        ];
+
+        let index = 0;
+        const speed = 800;
+
+        function printNextLine() {
+            if (index < lines.length) {
+                const p = document.createElement('div');
+                p.className = 'line';
+                p.textContent = lines[index];
+                terminal.appendChild(p);
+                terminal.scrollTop = terminal.scrollHeight;
+                index++;
+                setTimeout(printNextLine, speed);
+            } else {
+                setTimeout(() => {
+                    warningBox.style.display = 'flex';
+                }, 500);
+            }
+        }
+
+        setTimeout(printNextLine, 300);
+
+        unlockBtn.addEventListener('click', function() {
+            warningBox.style.display = 'none';
+            funMsg.style.display = 'block';
+            if (window.navigator && window.navigator.vibrate) {
+                window.navigator.vibrate(200);
+            }
+        });
+
+        terminal.addEventListener('click', function() {
+            if (warningBox.style.display === 'flex') {
+                unlockBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
